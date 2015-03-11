@@ -16,6 +16,8 @@ This plugin send a notification to your Slack channel whenever a sale occurs on 
 
 == Description ==
 
+> This plugin requires [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) to be installed and activated on your site. <strong>It will NOT function without it</strong>.
+
 Easy Digital Downloads - Slack notifications plugin send a notification to your Slack channel whenever a sale occurs on your Easy Digital Downloads store.
 
 Presently notifications is only sent when a sale occurs on our site.

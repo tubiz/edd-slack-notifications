@@ -13,6 +13,44 @@
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
 
+function tbz_edd_slack_activation(){
+
+    global $wpdb;
+
+    if ( ! class_exists( 'Easy_Digital_Downloads' ) ) {
+
+        // is this plugin active?
+        if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
+            // deactivate the plugin
+            deactivate_plugins( plugin_basename( __FILE__ ) );
+            // unset activation notice
+            unset( $_GET[ 'activate' ] );
+            // display notice
+            add_action( 'admin_notices', 'tbz_edd_slack_admin_notices' );
+        }
+    }
+    else {
+        add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'tbz_edd_slack_settings_link', 10, 2 );
+    }
+}
+add_action( 'admin_init', 'tbz_edd_slack_activation' );
+
+function tbz_edd_slack_admin_notices(){
+
+    if ( ! is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
+        echo '<div class="error"><p>You must install Easy Digital Downloads to use Easy Digital Downloads - Slack Notifications<a href="http://wordpress.org/plugins/easy-digital-downloads/" title="Easy Digital Downloads" target="_blank">', '</a></p></div>';
+    }
+}
+
+function tbz_edd_slack_settings_link( $links ){
+
+    $plugin_links = array(
+        '<a href="' . admin_url( 'edit.php?post_type=download&page=edd-settings&tab=slack' ) . '">Settings</a>',
+    );
+
+    return array_merge( $plugin_links, $links );
+}
+
 function tbz_edd_slack_settings_tab( $tabs ){
     $slack_tab = array();
 
