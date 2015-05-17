@@ -3,7 +3,7 @@ Contributors: tubiz
 Donate link: http://bosun.me/donate
 Tags: easy digital downloads, edd, slack, tubiz plugins, tubiz , tunbosun ayinla, nigeria
 Requires at least: 3.5
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
