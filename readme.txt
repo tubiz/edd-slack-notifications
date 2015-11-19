@@ -3,8 +3,8 @@ Contributors: tubiz
 Donate link: http://bosun.me/donate
 Tags: easy digital downloads, edd, slack, tubiz plugins, tubiz , tunbosun ayinla, nigeria
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 1.0.0
+Tested up to: 4.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,12 @@ To configure the plugin, go to __Easy Digital Downloads > Settings__ from the l
 
 == Changelog ==
 
+= 1.1.0 =
+*	New: Add support for custom bot name and custom bot icon
+*	Fix: Remove Slack tab from the Settings page, the plugin setting is now located in the Extensions tab
+*	Fix: Currency symbol formatting issue
+*	Fix: Deactivation of plugin when Easy Digital Downloads is updated
+
 = 1.0.0 =
 *   First release
 
@@ -93,7 +99,8 @@ To configure the plugin, go to __Easy Digital Downloads > Settings__ from the l
 
 == Upgrade Notice ==
 
-* No need to upgrade yet
+= 1.1.0 =
+* Currency symbol formatting issue has been fixed
 
 
 

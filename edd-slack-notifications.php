@@ -3,7 +3,7 @@
     Plugin Name: Easy Digital Downloads - Slack Notifications
     Plugin URL: http://bosun.me/edd-slack-notifications
     Description: Easy Digital Downloads Slack Notifications
-    Version: 1.0.0
+    Version: 1.1.0
     Author: Tunbosun Ayinla
     Author URI: http://bosun.me
     License: GPL-2.0+
@@ -15,32 +15,26 @@ if( ! defined( 'ABSPATH' ) ) exit;
 
 function tbz_edd_slack_activation(){
 
-    global $wpdb;
-
     if ( ! class_exists( 'Easy_Digital_Downloads' ) ) {
 
-        // is this plugin active?
-        if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
-            // deactivate the plugin
-            deactivate_plugins( plugin_basename( __FILE__ ) );
-            // unset activation notice
-            unset( $_GET[ 'activate' ] );
-            // display notice
-            add_action( 'admin_notices', 'tbz_edd_slack_admin_notices' );
-        }
+        // display notice
+        add_action( 'admin_notices', 'tbz_edd_slack_admin_notices' );
+
+        return;
     }
-    else {
-        add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'tbz_edd_slack_settings_link', 10, 2 );
-    }
+
 }
 add_action( 'admin_init', 'tbz_edd_slack_activation' );
+
 
 function tbz_edd_slack_admin_notices(){
 
     if ( ! is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
-        echo '<div class="error"><p>You must install Easy Digital Downloads to use Easy Digital Downloads - Slack Notifications<a href="http://wordpress.org/plugins/easy-digital-downloads/" title="Easy Digital Downloads" target="_blank">', '</a></p></div>';
+        echo '<div class="error"><p>You must install & activate <a href="http://wordpress.org/plugins/easy-digital-downloads/" title="Easy Digital Downloads" target="_blank"><strong>Easy Digital Downloads</strong></a> to use <strong>Easy Digital Downloads - Slack Notifications</strong></p></div>';
     }
+
 }
+
 
 function tbz_edd_slack_settings_link( $links ){
 
@@ -50,57 +44,64 @@ function tbz_edd_slack_settings_link( $links ){
 
     return array_merge( $plugin_links, $links );
 }
+add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'tbz_edd_slack_settings_link', 10, 2 );
 
-function tbz_edd_slack_settings_tab( $tabs ){
-    $slack_tab = array();
 
-    $slack_tab['slack'] = 'Slack';
-
-    return array_merge( $tabs , $slack_tab );
-}
-add_filter( 'edd_settings_tabs', 'tbz_edd_slack_settings_tab' );
-
-function tbz_edd_slack_settings(  $edd_settings ){
+function tbz_edd_slack_settings( $settings ){
 
     $slack_settings = array(
-        'slack' => array(
-            'tbz_slack_header' => array(
-                'id' => 'tbz_slack_header',
-                'name' => '<strong>Slack Notifications Settings</strong>',
-                'desc' => 'Configure Slack Notifications',
-                'type' => 'header'
-            ),
-            'tbz_enable_slack_notification' => array(
-                'id'    => 'tbz_enable_slack_notification',
-                'name'  => 'Enable Slack Notifications',
-                'desc'  => 'Check this to turn on Slack notifications',
-                'type'  => 'checkbox',
-                'std'   => '1'
-            ),
-            'tbz_slack_channel' => array(
-                'id'        => 'tbz_slack_channel',
-                'name'      => 'Channel Name',
-                'desc'      => 'Enter the name of the Channel notifications should be sent to e.g. #edd',
-                'type'      => 'text',
-                'size'      => 'all-options'
-            ),
-            'tbz_slack_webhook_url' => array(
-                'id'        => 'tbz_slack_webhook_url',
-                'name'      => 'Webhook URL',
-                'desc'      => '<br />Enter the url of the webhook created for the channel above. This can be created <a href="https://my.slack.com/services/new/incoming-webhook/" target="_blank">here</a>',
-                'type'      => 'text',
-                'size'      => 'large'
-            ),
-        )
+        array(
+            'id' => 'tbz_slack_header',
+            'name' => '<strong>Slack Notifications</strong>',
+            'desc' => '',
+            'type' => 'header',
+            'size' => 'regular'
+        ),
+        array(
+            'id'    => 'tbz_enable_slack_notification',
+            'name'  => 'Enable Slack Notifications',
+            'desc'  => 'Check this to turn on Slack notifications',
+            'type'  => 'checkbox',
+            'std'   => '1'
+        ),
+        array(
+            'id'        => 'tbz_slack_bot_name',
+            'name'      => 'Bot Name',
+            'desc'      => 'Enter the name of your Bot, the default is: ' . get_bloginfo('name') . ' Sales Bot',
+            'type'      => 'text',
+            'size'      => 'all-options'
+        ),
+        array(
+            'id'        => 'tbz_slack_icon_emoji',
+            'name'      => 'Bot Icon',
+            'desc'      => 'Enter the emoji icon for your bot. Click <a href="http://emoji-cheat-sheet.com" target="_blank">here</a> to view the list of available emoji icon. You are to enter only a single emoji icon. The default is :moneybag:',
+            'type'      => 'text',
+            'size'      => 'all-options'
+        ),
+        array(
+            'id'        => 'tbz_slack_channel',
+            'name'      => 'Channel Name',
+            'desc'      => 'Enter the name of the Channel notifications should be sent to e.g. #edd',
+            'type'      => 'text',
+            'size'      => 'all-options'
+        ),
+        array(
+            'id'        => 'tbz_slack_webhook_url',
+            'name'      => 'Webhook URL',
+            'desc'      => '<br />Enter the url of the webhook created for the channel above. This can be created <a href="https://my.slack.com/services/new/incoming-webhook/" target="_blank">here</a>',
+            'type'      => 'text',
+            'size'      => 'large'
+        ),
     );
 
-    return array_merge( $edd_settings, $slack_settings );
+    return array_merge( $settings, $slack_settings );
 }
-add_filter( 'edd_registered_settings', 'tbz_edd_slack_settings' );
+add_filter( 'edd_settings_extensions', 'tbz_edd_slack_settings' );
+
 
 function tbz_edd_notify_slack( $payment_id ){
 
-    global $edd_options;
+    $edd_options = edd_get_settings();
 
     $enable_slack   = isset( $edd_options['tbz_enable_slack_notification'] ) ? $edd_options['tbz_enable_slack_notification'] : '';
     $slack_channel  = isset( $edd_options['tbz_slack_channel'] ) ? $edd_options['tbz_slack_channel'] : '';
@@ -110,10 +111,13 @@ function tbz_edd_notify_slack( $payment_id ){
         return;
     }
 
-    $site_name      = get_bloginfo('name');
+    $emoji           = ! empty( $edd_options['tbz_slack_icon_emoji'] ) ? $edd_options['tbz_slack_icon_emoji'] : ':moneybag:';
 
-    $order_amount   = esc_attr( edd_format_amount( edd_get_payment_amount( $payment_id ) ) );
-    $curreny_symbol = edd_currency_symbol( $payment_meta['currency'] );
+    $bot_name        = ! empty( $edd_options['tbz_slack_bot_name'] ) ? $edd_options['tbz_slack_bot_name'] : get_bloginfo( 'name' ) . ' Sales Bot';
+
+    $order_amount       = esc_attr( edd_format_amount( edd_get_payment_amount( $payment_id ) ) );
+    $currency_symbol    = edd_currency_symbol( $payment_meta['currency'] );
+    $currency_symbol    = html_entity_decode( $currency_symbol, ENT_QUOTES, 'UTF-8' );
 
     $payment_meta   = edd_get_payment_meta( $payment_id );
 
@@ -124,7 +128,7 @@ function tbz_edd_notify_slack( $payment_id ){
     foreach ( $cart_items as $key => $cart_item ){
         $name   = $cart_item['name'];
         $price  = $cart_item['price'];
-        $items_sold .= "*Name:* $name | *Price:* $curreny_symbol$price \n";
+        $items_sold .= "*Name:* $name | *Price:* $currency_symbol$price \n";
     }
 
     $gateway        = edd_get_payment_gateway( $payment_id );
@@ -133,7 +137,7 @@ function tbz_edd_notify_slack( $payment_id ){
     $message = "A new sale has occurred on $site_name \n\n";
     $message .= "*ITEM(S):* \n";
     $message .= $items_sold;
-    $message .= "\n *Order Total:* $curreny_symbol$order_amount \n";
+    $message .= "\n *Order Total:* $currency_symbol$order_amount \n";
     $message .= "*Payment Method:* $payment_method \n";
 
     $message = apply_filters('tbz_edd_message', $payment_id);
@@ -141,7 +145,7 @@ function tbz_edd_notify_slack( $payment_id ){
     $attachment = array();
 
     $attachment[] = array(
-        'fallback'  => "New sale notification of $curreny_symbol$price on $site_name",
+        'fallback'  => "New sale notification of $currency_symbol$price on $site_name",
         'title'     => 'New Sale Notification',
         'text'      => $message,
         'color'     => 'good',
@@ -149,9 +153,9 @@ function tbz_edd_notify_slack( $payment_id ){
     );
 
     $payload = array(
-        'username'      => "$site_name Sales Bot",
+        'username'      => $bot_name,
         'attachments'   => $attachment,
-        'icon_emoji'    => ':moneybag:',
+        'icon_emoji'    => $emoji,
         'channel'       => $slack_channel,
     );
 
