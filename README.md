@@ -1,4 +1,8 @@
 # Easy Digital Downloads - Slack Notifications #
+
+**NOTE** This is my fork of the nice tubiz plugin. I forked it planning to add more options for customize the message sent to Slack. Garubi
+
+
 **Contributors:** tubiz
 
 **Donate link:** http://bosun.me/donate

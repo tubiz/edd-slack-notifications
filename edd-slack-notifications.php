@@ -140,6 +140,8 @@ function tbz_edd_notify_slack( $payment_id ){
     $message .= "\n *Order Total:* $currency_symbol$order_amount \n";
     $message .= "*Payment Method:* $payment_method \n";
 
+    $message = apply_filters('tbz_edd_message', $payment_id);
+
     $attachment = array();
 
     $attachment[] = array(
