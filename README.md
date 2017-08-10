@@ -7,9 +7,9 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 4.6
+**Tested up to:** 4.8
 
-**Stable tag:** 1.1.0
+**Stable tag:** 2.0.0
 
 **License:** GPLv2 or later
 
@@ -94,6 +94,11 @@ To configure the plugin, go to __Easy Digital Downloads > Settings__ from the l
 
 ## Changelog ##
 
+### 2.0.0 ###
+* 	Fix: Notifications not sent if channel isn't specified
+* 	New: Move Slack settings to it's own subsection
+*	New: Send to a different channel or speficic user
+
 ### 1.1.0 ###
 *	New: Add support for custom bot name and custom bot icon
 *	Fix: Remove Slack tab from the Settings page, the plugin setting is now located in the Extensions tab
@@ -107,8 +112,8 @@ To configure the plugin, go to __Easy Digital Downloads > Settings__ from the l
 
 ## Upgrade Notice ##
 
-= 1.1.0 =
-* Currency symbol formatting issue has been fixed
+= 2.0.0 =
+* Fix for notifications not sent if channel isn't specified. Add support for sending to a specific user
 
 
 
