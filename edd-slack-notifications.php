@@ -130,13 +130,13 @@ function tbz_edd_notify_slack( $payment_id ){
     foreach ( $cart_items as $key => $cart_item ){
         $name   = $cart_item['name'];
         $price  = $cart_item['price'];
-        $items_sold .= "$name | $currency_symbol$price \n";
+        $items_sold .= "$name | $currency_symbol$order_amount \n";
     }
 
     $gateway        = edd_get_payment_gateway( $payment_id );
     $payment_method = edd_get_gateway_admin_label( $gateway );
 
-    $fallback   = "New sale notification of $currency_symbol$price on $site_name";
+    $fallback   = "New sale notification of $currency_symbol$order_amount on $site_name";
 
     $fields     = array();
     $attachment = array();
